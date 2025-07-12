@@ -1,0 +1,20 @@
+[build]
+builder = "DOCKERFILE"
+
+[deploy]
+startCommand = "sh -c 'cd backend && python main.py & streamlit run app.py --server.port 5000 --server.address 0.0.0.0'"
+healthcheckPath = "/"
+healthcheckTimeout = 300
+
+[[services]]
+name = "backend"
+source = "backend/main.py"
+
+[[services]]
+name = "frontend" 
+source = "app.py"
+
+[env]
+GEMINI_API_KEY = "${{GEMINI_API_KEY}}"
+GOOGLE_SERVICE_ACCOUNT_JSON = "${{GOOGLE_SERVICE_ACCOUNT_JSON}}"
+DATABASE_URL = "${{DATABASE_URL}}"
